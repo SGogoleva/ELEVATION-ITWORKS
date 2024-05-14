@@ -5,7 +5,6 @@ export type User = {
   lastName: string;
   email: string;
   password: string;
-  dob: string;
 };
 
 // a create user type with firstname,last name, email and password and dob

@@ -1,12 +1,13 @@
 import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/context';
+import { UserContext } from '../context/userContext';
 import { User } from '../types/User';
-import userData from '../mocks/jsons/users.json'
-
+// import userData from '../mocks/jsons/users.json'
 
 const Login = () => {
-  const USERS: User[] = userData;
+  const userCtx = useContext(UserContext);
+  // const USERS: User[] = userData;
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
@@ -25,17 +26,19 @@ const Login = () => {
 
     if (!nameValue.length || !passwordValue.length) {
       setErrorMessage('You must fill all fields!');
-      return
+      return;
     }
     try {
       // const response = await fetch('../mocks/jsons/users.json');
       // const userData = await response.json();
-      const currentUser = USERS.find((user: User) => user.email === nameValue && user.password === passwordValue);
+      const currentUser = userCtx.users.find(
+        (user: User) => user.email === nameValue && user.password === passwordValue
+      );
       if (currentUser) {
         authCtx.login(currentUser);
         navigate('/');
       }
-      setErrorMessage('Invalid email or password!')
+      setErrorMessage('Invalid email or password!');
     } catch (error) {
       const typedError = error as Error;
       console.error(typedError);

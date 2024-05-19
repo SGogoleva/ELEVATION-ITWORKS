@@ -2,13 +2,6 @@ import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../types/User';
 
-// type User = {
-//   id: string;
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   password: string;
-// };
 
 type AuthState = {
   user: User | null;

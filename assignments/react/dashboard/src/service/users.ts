@@ -14,9 +14,11 @@ export const createUser = async (user: CreateUser): Promise<{ id: string } | { e
       throw new Error('Invalid email');
     }
     // check valid dob
-    const validDate = parseDate(user.dob);
-    if (!validDate) {
-      throw new Error('Invalid dob');
+    if (user.dob) {
+      const validDate = parseDate(user.dob);
+      if (!validDate) {
+        throw new Error('Invalid dob');
+      }
     }
     const newUser = user as User;
     newUser.id = makeUUID();

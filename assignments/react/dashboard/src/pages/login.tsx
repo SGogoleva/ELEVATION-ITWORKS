@@ -2,21 +2,22 @@ import { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/context';
 import { UserContext } from '../context/userContext';
-import { User } from '../types/User';
+import { User, UserLogin } from '../types/User';
 // import userData from '../mocks/jsons/users.json'
 
 const Login = () => {
   const userCtx = useContext(UserContext);
-  // const USERS: User[] = userData;
   const authCtx = useContext(AuthContext);
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
-
+  
   useEffect(() => {
     if (errorMessage) {
       alert(errorMessage);
     }
   }, [errorMessage]);
+
+  console.log(userCtx.users)
 
   const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -31,8 +32,9 @@ const Login = () => {
     try {
       // const response = await fetch('../mocks/jsons/users.json');
       // const userData = await response.json();
+      
       const currentUser = userCtx.users.find(
-        (user: User) => user.email === nameValue && user.password === passwordValue
+        (user: UserLogin) => user.email === nameValue && user.password === passwordValue
       );
       if (currentUser) {
         authCtx.login(currentUser);

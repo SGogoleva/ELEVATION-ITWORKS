@@ -1,36 +1,22 @@
 import { updateUser } from '../service/users';
-import { useEffect, useState } from 'react';
-import { getUserById } from '../service/users';
+import { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { User, CreateUser } from '../types/User';
+import { UserContext } from '../context/userContext';
+
 
 const EditUsers = () => {
-  const [userId, setUserId] = useState('');
-  const [user, setUser] = useState({ firstName: '', lastName: '', email: '', password: '' });
-  const [userFound, setUserFound] = useState(false);
+  const userCtx = useContext(UserContext)
+  const location = useLocation()
+  const currentUser: User = location.state.user
+  const userId = currentUser.id
+  const [user, setUser] = useState<CreateUser>({
+    firstName: currentUser.firstName || '',
+    lastName: currentUser.lastName || '',
+    email: currentUser.email || '',
+    password: ''
+  });
   const [error, setError] = useState('');
-
-useEffect(() => {
-    const findUser = async () => {
-      if(!userId) {
-        setUser({ firstName: '', lastName: '', email: '', password: '' });
-        setUserFound(false);
-        setError('');
-        return
-      }
-
-      const foundUser = await getUserById(userId);
-      if (foundUser) {
-        setUser(foundUser);
-        setUserFound(true);
-      } else {
-        setUser({ firstName: '', lastName: '', email: '', password: '' });
-        setUserFound(false);
-        setError('User not found!');
-      }
-    };
-  findUser()
-
-},[userId, userFound])
-
 
 
   const handleUserChanges = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,22 +27,16 @@ useEffect(() => {
 
   const handleUpdateUser = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (await updateUser(userId, user)) {
-      setError('');
-    } else {
-      setError('Failed to update user.');
+    const result = await userCtx.updateUser(userId, user)
+    if (!result) {
+      setError('User have not been updated')
     }
+    
   };
 
   return (
     <>
       <h1>Edit Users Page</h1>
-      <label>
-        Input an ID of the user you want to update:
-        <input type="text" value={userId} placeholder="Input ID" onChange={(e) => setUserId(e.target.value)} />
-      </label>
-      {error && <p className="error-msg">{error}</p> }
-      {userFound && (
         <form className="update-form" onSubmit={handleUpdateUser}>
           <input type="text" name="firstName" value={user.firstName} placeholder="Update name" onChange={handleUserChanges} />
           <input type="text" name="lastName" value={user.lastName} placeholder="Update lastname" onChange={handleUserChanges} />
@@ -64,8 +44,7 @@ useEffect(() => {
           <input type="text" name="password" value={user.password} placeholder="Update password" onChange={handleUserChanges} />
           <button>Update User</button>
         </form>
-      )}
-      
+        {error && <p>{error}</p>}
     </>
   );
 };

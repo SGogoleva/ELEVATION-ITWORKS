@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { createUser } from '../service/users';
 import { UserContext } from '../context/userContext';
+import { CreateUser } from '../types/User';
 
 const CreateUsers = () => {
   const userCtx = useContext(UserContext);
@@ -19,19 +20,18 @@ const CreateUsers = () => {
       return;
     }
 
-    const newUser = {
+    const newUser: CreateUser = {
       firstName,
       lastName,
       email,
       password,
     };
     try {
-      const result = await createUser(newUser);
+      const result = await userCtx.createUser(newUser);
       if ('error' in result) {
         setError(result.error);
       } else {
         setUserId(result.id);
-        userCtx.createUser({ ...newUser, id: result.id });
         setFirstName('');
         setLastName('');
         setEmail('');

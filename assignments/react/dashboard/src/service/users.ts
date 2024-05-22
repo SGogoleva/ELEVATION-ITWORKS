@@ -2,10 +2,15 @@ import type { CreateUser, User } from '../types/User';
 import { encryptStr } from '../utils/encryptStr';
 import makeUUID from '../utils/makeUUID';
 import parseDate from '../utils/parseDate';
+import userData from '../mocks/jsons/users.json'
 // MOCK METHODS
 
-const USERS: User[] = [];
+let USERS: User[] = [];
 
+export const initializeUsers = async () => {
+  USERS = userData;
+  return USERS;
+};
 // create a user
 export const createUser = async (user: CreateUser): Promise<{ id: string } | { error: string }> => {
   try {
@@ -23,7 +28,7 @@ export const createUser = async (user: CreateUser): Promise<{ id: string } | { e
     const newUser = user as User;
     newUser.id = makeUUID();
     newUser.password = encryptStr(newUser.password);
-    USERS.push(newUser);
+    // USERS.push(newUser);
     return { id: newUser.id };
   } catch (error) {
     return { error: (error as Error).message };

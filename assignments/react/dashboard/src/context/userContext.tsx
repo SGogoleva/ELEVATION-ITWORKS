@@ -29,15 +29,27 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchInitialUsers = async () => {
       const initialUsers = await initializeUsers();
+      console.log('Fetching users from service in context');
+      console.log(initialUsers);
       setUsers(initialUsers);
     };
     fetchInitialUsers();
   }, []);
 
+  useEffect(() => {
+    console.log('Watching changing state in context');
+    console.log(users);
+  });
+
   const createUser = async (user: CreateUser) => {
     const result = await createUserService(user);
     if ('id' in result) {
-      setUsers((prevUser) => [...prevUser, { ...user, id: result.id }]);
+      const idx = users.findIndex((u) => u.id === result.id)
+      if (idx === -1) {
+        const createdUser = [...users, { ...user, id: result.id }];
+        setUsers(createdUser);
+        console.log('Created user', createdUser)
+      }
     }
     return result;
   };

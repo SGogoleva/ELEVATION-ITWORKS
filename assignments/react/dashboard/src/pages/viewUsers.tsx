@@ -11,7 +11,6 @@ const ViewUsers = () => {
   if (!authCtx.isAuthenticated) {
     navigate('/login');
   }
-  console.log(userCtx.users)
   return (
     <>
       <h1>View Users Page</h1>

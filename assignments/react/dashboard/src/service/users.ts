@@ -11,6 +11,9 @@ export const initializeUsers = async () => {
   USERS = userData;
   return USERS;
 };
+
+console.log('Log from service')
+console.log(USERS)
 // create a user
 export const createUser = async (user: CreateUser): Promise<{ id: string } | { error: string }> => {
   try {
@@ -28,7 +31,7 @@ export const createUser = async (user: CreateUser): Promise<{ id: string } | { e
     const newUser = user as User;
     newUser.id = makeUUID();
     newUser.password = encryptStr(newUser.password);
-    // USERS.push(newUser);
+    USERS.push(newUser);
     return { id: newUser.id };
   } catch (error) {
     return { error: (error as Error).message };

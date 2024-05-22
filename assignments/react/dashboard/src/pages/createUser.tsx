@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { createUser } from '../service/users';
 import { UserContext } from '../context/userContext';
 import { CreateUser } from '../types/User';
 

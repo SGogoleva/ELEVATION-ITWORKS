@@ -17,8 +17,6 @@ const Login = () => {
     }
   }, [errorMessage]);
 
-  console.log(userCtx.users)
-
   const submitFormHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);

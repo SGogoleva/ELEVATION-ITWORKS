@@ -8,12 +8,14 @@ const ViewUsers = () => {
   const authCtx = useContext(AuthContext);
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
+
   if (!authCtx.isAuthenticated) {
     navigate('/login');
   }
   return (
     <>
       <h1>View Users Page</h1>
+      <h1>Hello, {authCtx.user?.firstName}!</h1>
       <ul className="list-users">
         {userCtx.users.map((user) => (
           <li key={user.id}>

@@ -2,7 +2,6 @@ import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User } from '../types/User';
 
-
 type AuthState = {
   user: User | null;
   isAuthenticated: boolean;

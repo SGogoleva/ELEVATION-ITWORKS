@@ -2,7 +2,7 @@ import type { CreateUser, User } from '../types/User';
 import { encryptStr } from '../utils/encryptStr';
 import makeUUID from '../utils/makeUUID';
 import parseDate from '../utils/parseDate';
-import userData from '../mocks/jsons/users.json'
+import userData from '../mocks/jsons/users.json';
 // MOCK METHODS
 
 let USERS: User[] = [];
@@ -12,8 +12,6 @@ export const initializeUsers = async () => {
   return USERS;
 };
 
-console.log('Log from service')
-console.log(USERS)
 // create a user
 export const createUser = async (user: CreateUser): Promise<{ id: string } | { error: string }> => {
   try {

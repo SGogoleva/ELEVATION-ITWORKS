@@ -44,11 +44,11 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const createUser = async (user: CreateUser) => {
     const result = await createUserService(user);
     if ('id' in result) {
-      const idx = users.findIndex((u) => u.id === result.id)
+      const idx = users.findIndex((u) => u.id === result.id);
       if (idx === -1) {
         const createdUser = [...users, { ...user, id: result.id }];
         setUsers(createdUser);
-        console.log('Created user', createdUser)
+        console.log('Created user', createdUser);
       }
     }
     return result;
@@ -72,7 +72,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      <UserContext.Provider value={{ users, createUser, updateUser, deleteUser }}>{children}</UserContext.Provider>;
+      <UserContext.Provider value={{ users, createUser, updateUser, deleteUser }}>{children}</UserContext.Provider>
     </>
   );
 };

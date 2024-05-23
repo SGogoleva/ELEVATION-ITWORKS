@@ -17,4 +17,3 @@ export const login = async (username: string, password: string): Promise<Omit<Ad
   // return admin w/o password
   return { id: admin.id, username: admin.username };
 };
-
